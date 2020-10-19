@@ -1,0 +1,13 @@
+{
+    "postcss": {
+        "modules": true,
+        "plugins": {
+            "autoprefixer": {
+                "grid": true
+            },
+            "postcss-modules": {
+                "camelCase": true
+            }
+    }
+  }
+}

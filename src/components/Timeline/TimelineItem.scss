@@ -1,0 +1,38 @@
+@charset "utf-8";
+@import "bulma/bulma.sass";
+@import "@fortawesome/fontawesome-free/css/all.css";
+
+
+
+.preview-item {  
+    max-height: 360px;
+    margin-bottom: 0.5rem !important;
+    margin-right: 0 !important;
+    margin-top: 0.5rem;
+    line-height: 1.375;
+    overflow: auto;
+    max-width: 100%;
+    background-attachment: local, local, scroll, scroll;
+    padding: 1rem 2rem 2rem 0.5rem;
+    background-color: #fefefe;
+  }
+
+  .button-source-nav {
+    display: inline-flex;
+    justify-content: center;
+    padding-bottom: calc(0.5em - 1px);
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: calc(0.5em - 1px);
+    text-align: center;
+    white-space: nowrap;
+    font-size: 0.75rem;
+  }
+  
+  .content {
+    figure {
+      margin-right: 0 !important;
+    }
+    background-color: #ffffff;
+    color: #000000;
+  }

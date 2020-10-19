@@ -1,3 +1,14 @@
+.DS_Store
+/**/.DS_Store
+
+dist
+
+# Use yarn.lock instead
+package-lock.json
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
 # Logs
 logs
 *.log
@@ -72,6 +83,10 @@ typings/
 .env
 .env.test
 
+# Environment production variables
+.env.prod
+.env.production
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
@@ -102,3 +117,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Others
+.python-version
+.netlify

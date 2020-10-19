@@ -1,0 +1,66 @@
+@import "bulma/bulma.sass";
+
+.time-line-ctnr {
+    .time-line {
+      position: relative;
+      margin: 0 0 0px 0;
+      padding: 0;
+      list-style: none;
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: -10px;
+        width: 2px;
+        background: #000000;//hsl(206, 70%, 96%);// #FFFFFF;
+        left: 32px;
+        border-radius: 2px;
+      }
+      > .time-label {
+        > span {
+          padding: 5px 10px;
+          display: inline-block;
+          background-color: #000000;
+          color: #fff;
+          border-radius: 2px;
+        }
+      }
+      > li {
+        position: relative;
+        margin-bottom: 10px;
+        margin-right: 0;
+        > .time-line-item {
+          margin-right: 15px;
+          position: relative;
+          margin-left: 50px;
+          > .time-line-header,
+          .time {
+            padding: 6px 10px;
+          }
+          .time {
+            font-size: 12px;
+            float: right;
+          }
+          .time-line-header {
+            margin: 0;
+            line-height: 1.1;
+          }
+        }
+        > .fa {
+          position: absolute;
+          border-radius: 50%;
+          width: 10px;
+          height: 10px;
+          left: 28px;
+          top: 50%;
+          border: 2px solid #000000;// hsl(206, 70%, 96%);
+          display: inline-block;
+          box-sizing: border-box;
+          background-color: #000000;//hsl(206, 70%, 96%);
+        }
+      }
+      > .media {
+        border-style: none;
+      }
+    }
+  }
