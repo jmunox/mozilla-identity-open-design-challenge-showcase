@@ -2,7 +2,6 @@ import * as React from 'react'
 import { view } from 'react-easy-state'
 import classNames from 'classnames'
 import ReactHtmlParser from 'react-html-parser';
-import dompurify from 'dompurify';
 import moment from 'moment';
 moment().format('lll');
 
@@ -19,7 +18,7 @@ export default view(({event}) => {
             content : 'Hello world!'
             }
     }
-    const sanitizer = dompurify.sanitize;
+
     const time = moment(event.date).format('MMMM Do YYYY, h:mm:ss a');
     let icon = '';
 
@@ -68,7 +67,7 @@ export default view(({event}) => {
                         <figure className={classNames(css.container, css.hasTextJustified, css['is-6'])}>
                         <ExpandNav event={event.event_type}/>
                             <div className={classNames(css.previewItem)}>
-                                {ReactHtmlParser(sanitizer(event.content))}
+                                {ReactHtmlParser(event.content)}
                             </div>
                             
                         </figure>

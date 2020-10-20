@@ -11,13 +11,10 @@ import * as css from './Timeline.scss'
 * Original: https://github.com/arunghosh/react-time-line/blob/master/src/Timeline.jsx
 * Adapted to use Bulma cards
 */
-
 export default view(({items, format="hh:mm"}) => {
 
     const activities = getFormattedData(items, format);
     const dates = Object.keys(activities);
-  
-     //     
     return (
       <div className={classNames(css.container, css.timeLineCtnr)} >
         <div className={classNames(css.mozColumns)}>
