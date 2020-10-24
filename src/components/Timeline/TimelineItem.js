@@ -1,29 +1,30 @@
-import * as React from 'react'
-import { view } from 'react-easy-state'
-import classNames from 'classnames'
+import * as React from 'react';
+import { view } from 'react-easy-state';
+import classNames from 'classnames';
 import ReactHtmlParser from 'react-html-parser';
-import moment from 'moment';
-moment().format('lll');
 
-import * as css from './TimelineItem.scss'
+import * as css from './TimelineItem.scss';
 
-export default view(({event}) => {
+import dayjs from 'dayjs';
+const utc = require('dayjs/plugin/utc');
+dayjs.extend(utc);
 
-    if (event == null) {
-        event = {
+export default view(({item}) => {
+
+    if (item == null) {
+        item = {
             name : 'Random name',
             date : new Date(),
             event_type : 'github',
             source : 'https://google.com',
-            content : 'Hello world!'
-            }
+            content : 'Hello world!',
+            };
     }
 
-    const time = moment(event.date).format('MMMM Do YYYY, h:mm:ss a');
+    const time = dayjs(item.date).utc().format('DD MMMM YYYY, HH:mm:ssZ[Z]');
     let icon = '';
 
-
-    switch(event.event_type){
+    switch(item.event_type){
         case 'GitHub open issue':
         icon = 'fab fa-github';
         break;
@@ -48,16 +49,16 @@ export default view(({event}) => {
 
     return (
         <div className={css.container, css['mb-5']}>
-            <SourceNav source={event.source} event={event.event_type} />
+            <SourceNav source={item.source} event={item.event_type} />
             <div className={classNames(css.card)}>
                 <div className={css.cardContent}>
                     <div className={css.media}>
                         <div className={css.mediaLeft}>
-                        <a href={event.source}><span className={classNames(css.title, css.icon)}><i className={classNames(icon)}></i></span></a>
+                        <a href={item.source}><span className={classNames(css.title, css.icon)}><i className={classNames(icon)}></i></span></a>
                         </div>
                         <div className={css.mediaContent}>
-                            <p className={classNames(css.title, css['is-4'], css['mb-5'])}>{event.name}</p>
-                            <p className={classNames(css.subtitle, css['is-6'], css['mb-2'])}>on&nbsp;<time datetime={event.date}>{time}</time></p>
+                            <p className={classNames(css.title, css['is-4'], css['mb-5'])}>{item.name}</p>
+                            <p className={classNames(css.subtitle, css['is-6'], css['mb-2'])}>on&nbsp;<time datetime={item.date}>{time}</time></p>
                         </div>
                         <div className={classNames(css.mediaRight, css.isHidden)}>
                             <a href="#"><span className={classNames(css.icon)}><i className='far fa-sticky-note' aria-hidden="true"></i></span></a>
@@ -65,9 +66,9 @@ export default view(({event}) => {
                     </div>
                     <div className={css.content}>
                         <figure className={classNames(css.container, css.hasTextJustified, css['is-6'])}>
-                        <ExpandNav event={event.event_type}/>
+                        <ExpandNav event={item.event_type}/>
                             <div className={classNames(css.previewItem)}>
-                                {ReactHtmlParser(event.content)}
+                                {ReactHtmlParser(item.content)}
                             </div>
                             
                         </figure>
@@ -78,7 +79,7 @@ export default view(({event}) => {
         </div>
 
     )
-  })
+  });
 
   const CardFooter = ({id}) => {
     return(

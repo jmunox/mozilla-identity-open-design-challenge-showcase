@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export const useNumber = (initialValue  = 0, step = 1) => {
   const [value, setValue] = useState(initialValue);
@@ -13,13 +13,13 @@ export const useBoolean = (initialState = false) => {
   return { value, inverse };
 };
 
-export const useDocumentTitle = (title = "") => {
+export const useDocumentTitle = (title = '') => {
   useEffect(() => {
     window.document.title = title;
   }, [title]);
 };
 
-export const useInput = (initialValue = "", options = {}) => {
+export const useInput = (initialValue = '', options = {}) => {
 
   const initial = options.persist
     ? window.localStorage.getItem(options.persist)
@@ -35,7 +35,7 @@ export const useInput = (initialValue = "", options = {}) => {
 
   return {
     value,
-    isValid: value && value.trim() !== "",
+    isValid: value && value.trim() !== '',
     bind: {
       onChange: e => setValue(e.target.value),
       value
@@ -60,4 +60,15 @@ export const useMeasureWindow = () => {
   }, []);
 
   return { width, height };
+};
+
+export const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+
+  return debouncedValue;
 };

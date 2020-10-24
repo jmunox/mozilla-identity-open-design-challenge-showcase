@@ -14,11 +14,18 @@ const withSuspense = Component => {
   )
 }
 
+const RouteWithId = ({match}) => {
+  return(
+      <Home header={match.params.header} />
+  );
+};
+
 export default () => {
   return (
     <Router>
         <AppMenu />
         <Route path="/" exact component={Home} />
+        <Route path="/date/:header" component={RouteWithId} />
         <Route path="/about" component={withSuspense(About)} />
 
     </Router>

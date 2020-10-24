@@ -1,21 +1,25 @@
 import { store } from 'react-easy-state'
 import { reqGet, reqPost } from 'utils/Req'
 import {slowSearch, fastSearch} from 'utils/Search'
-import memoize from 'fast-memoize';
+import dompurify from 'dompurify';
+
+import dayjs from 'dayjs';
+const utc = require('dayjs/plugin/utc');
+dayjs.extend(utc);
 
 // Example: https://github.com/solkimicreb/react-easy-state/tree/master/examples/todo-mvc
 
 const _store = store({
   isLoading: false,
   isSearching: false,
-  isAllFetched: false,
-  items: [{ name: 'Author 1', date: new Date(), content: 'Lorem ipsum', event_type: 'Random', source: '/#' }, { name: 'Author 2', date: new Date(), content: 'Lorem ipsum', event_type: 'Random', source: '/#' }],
-  visibleItems: [],
+  items: [],
+  visibleItems: [], //[{ name: 'Author 1', date: new Date(), content: 'Lorem ipsum', event_type: 'Random', source: '/#' }, { name: 'Author 2', date: new Date(), content: 'Lorem ipsum', event_type: 'Random', source: '/#' }],
   async fetch(options) {
     let query = !options ? '' : options
     _store.isLoading = true
     const { res } = await reqGet('events?'+query)
-    _store.items = res
+    const sanitizedItems = getSanitizedData(res);
+    _store.visibleItems = sanitizedItems
     _store.isLoading = false
   },
   async limitedFetch({limit = 10}) {
@@ -24,24 +28,36 @@ const _store = store({
   },
   async fetchAndSearch({searchQuery = ''}) {
     _store.isSearching = true
-    if(!_store.isAllFetched){
-      await _store.fetchAll()
-    }
-      const res = fastSearch({items : _store.allItems, searchQuery : searchQuery})
-    _store.visibleItems = res
+    _store.isLoading = true
+    const { res } = await reqGet('events')
+    const sanitizedItems = getSanitizedData(res);
+    _store.items = sanitizedItems
+    const resultSearch = fastSearch({items : sanitizedItems, searchQuery : searchQuery})
+    _store.visibleItems = resultSearch
     _store.isSearching = false
-    
+    _store.isLoading = false
   },
   async fetchAll() {
     _store.isLoading = true
     const { res } = await reqGet('events')
-    _store.items = res
-    _store.allItems = res
+    const sanitizedItems = getSanitizedData(res);
+    _store.items = sanitizedItems
     _store.isLoading = false
-    _store.isAllFetched = true
   },
 
-
 })
+
+function getSanitizedData(items) {
+  const sanitizer = dompurify.sanitize;
+  const sanitizedItems = [];
+  items.forEach((item, index) => {
+    item.content = sanitizer(item.content);
+    const contentInnerHTML = item.content.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, ''); //remove HTML tags
+    item.match = dayjs(item.date).utc().format('DD MMMM YYYY, HH:mm:ss') + ' ' + item.name + ' ' + item.source + ' ' + item.event_type + ' ' + contentInnerHTML;
+    item.key = index;
+    sanitizedItems.push(item);
+  });
+  return sanitizedItems;
+}
 
 export default _store
