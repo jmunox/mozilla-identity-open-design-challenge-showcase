@@ -92,7 +92,7 @@ useEffect(() => {
 }, [scrollObserver, bottomBoundaryRef]);
 
   return (
-    <div id='home' className={css.container}>
+    <div id='home' className={classNames(css.container, css.isFullhd)}>
       <nav className={classNames(css.navbar, css.isFixedTop)} role='navigation' aria-label='main navigation'>
       <div className={css.navbarBrand}>
       <div class={classNames(css.navbarItem, css.field)}>
@@ -112,22 +112,23 @@ useEffect(() => {
         </div>
       </div>
     </nav>
-      <div className={css.title}>Designing the Mozilla brand identity.</div>
-      <div className=''>
+      <section className={css.section}>
+      <div className={classNames(css.title, )}>Designing the Mozilla brand identity.</div>
+      <div className={css.container}>
     <p>
     {
       !isSearching && !isEmpty(search.query) && !visibleItems.length ? <div className={css.subtitle} aria-label='No matching data found for {search.query}' >No matching data found for {search.query}</div> :
       isSearching && !isEmpty(search.query) ? <div className={css.subtitle} aria-label='... Searching for {search.query}' >Searching for: {search.query}</div> :
-      !isSearching && !isEmpty(debouncedText) && visibleItems.length ? <div className={css.subtitle} aria-label='{visibleItems.length} matching results for {search.query}' >{visibleItems.length} matching results for {search.query}</div> : 
+      !isSearching && !isEmpty(debouncedText) && visibleItems.length ? <div className={css.subtitle} aria-label='{visibleItems.length} matching results for {debouncedText}' >{visibleItems.length} matching results for {debouncedText}</div> : 
      <br/>
     }
-     {<progress className={classNames('mb-5', 'progress', 'is-danger', 'is-small', (!isLoading)? 'is-hidden' : '')} max="100">30%</progress>}
+     {<progress className={classNames(css.progress, css.isDanger, css.isSmall, css.mb5, (!isLoading)? css.isHidden : '')} max="100">30%</progress>}
     </p>
 </div>
       <Timeline items={visibleItems} scroll={search.date ? search.date.toLowerCase() : null} />
       <div id='page-bottom-boundary' style={{ border: '1px solid red' }} ref={bottomBoundaryRef}></div>
       { (isLoading && !isSearching) && (<span aria-label='Loading more data' >Loading...</span>)}
-      {<progress className={classNames('mb-5', 'progress', 'is-danger', 'is-small', (!isLoading)? 'is-hidden' : '')} max="100">30%</progress>}
+      </section>
     </div>
   )
 })

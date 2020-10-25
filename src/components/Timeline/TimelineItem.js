@@ -48,26 +48,26 @@ export default view(({item}) => {
     }
 
     return (
-        <div className={css.container, css['mb-5']}>
+        <div className={css.container, css.mb5}>
             <SourceNav source={item.source} event={item.event_type} />
             <div className={classNames(css.card)}>
                 <div className={css.cardContent}>
-                    <div className={css.media}>
+                    <div className={classNames(css.media)}>
                         <div className={css.mediaLeft}>
                         <a href={item.source}><span className={classNames(css.title, css.icon)}><i className={classNames(icon)}></i></span></a>
                         </div>
                         <div className={css.mediaContent}>
-                            <p className={classNames(css.title, css['is-4'], css['mb-5'])}>{item.name}</p>
-                            <p className={classNames(css.subtitle, css['is-6'], css['mb-2'])}>on&nbsp;<time datetime={item.date}>{time}</time></p>
+                            <p className={classNames(css.title)}>{item.name}</p>
+                            <p className={classNames(css.subtitle)}>on&nbsp;<time datetime={item.date}>{time}</time></p>
                         </div>
                         <div className={classNames(css.mediaRight, css.isHidden)}>
                             <a href="#"><span className={classNames(css.icon)}><i className='far fa-sticky-note' aria-hidden="true"></i></span></a>
                         </div>
                     </div>
                     <div className={css.content}>
-                        <figure className={classNames(css.container, css.hasTextJustified, css['is-6'])}>
+                        <figure className={classNames(css.container, css.hasTextJustified)}>
                         <ExpandNav event={item.event_type}/>
-                            <div className={classNames(css.previewItem)}>
+                            <div className={classNames(css.previewItem, css.hasBackgroundWhiteBis)}>
                                 {ReactHtmlParser(item.content)}
                             </div>
                             
@@ -99,7 +99,7 @@ export default view(({item}) => {
             <div className={classNames(css.levelItem, css.hasTextCentered)}>
                         <div>
                         <p claclassNamess={classNames(css.tags, css.areNormal)}>
-                                <span className={classNames(css.tag, css.isBlack)}>{event}</span>&nbsp;
+                                <span className={classNames(css.tag, css.isInfo, css.isLight)}>{event}</span>&nbsp;
                             </p>
                         </div>
                 </div>
@@ -116,7 +116,7 @@ export default view(({item}) => {
 
   const SourceNav = ({id, source, event}) => {
     return(
-        <nav className={classNames(css.level, css.isMobile)}>
+        <nav className={classNames(css.level, css.isMobile, css.mb1)}>
             <div className={css.levelLeft}>
             
             </div>

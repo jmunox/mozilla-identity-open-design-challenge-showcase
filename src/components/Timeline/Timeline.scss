@@ -1,5 +1,10 @@
 @import "bulma/bulma.sass";
 
+@media screen and (max-width:1023px){
+  .time-label{
+    font-size: 2.5rem;
+  }}
+
 .time-line-ctnr {
     .time-line {
       position: relative;
@@ -11,7 +16,7 @@
         position: absolute;
         top: 0;
         bottom: -10px;
-        width: 2px;
+        width: 3px;
         background: #000000;//hsl(206, 70%, 96%);// #FFFFFF;
         left: 32px;
         border-radius: 2px;
@@ -38,7 +43,7 @@
             padding: 6px 10px;
           }
           .time {
-            font-size: 12px;
+            //font-size: 1rem;
             float: right;
           }
           .time-line-header {
@@ -53,7 +58,7 @@
           height: 10px;
           left: 28px;
           top: 50%;
-          border: 2px solid #000000;// hsl(206, 70%, 96%);
+          border: 6px solid #000000;// hsl(206, 70%, 96%);
           display: inline-block;
           box-sizing: border-box;
           background-color: #000000;//hsl(206, 70%, 96%);

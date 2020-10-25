@@ -40,7 +40,6 @@
     "css-loader": "^4.3.0",
     "faker": "^4.1.0",
     "parcel": "^1.12.4",
-    "postcss-camel-case": "^1.0.1",
     "postcss-modules": "^3.2.2",
     "rimraf": "^3.0.2",
     "sass": "^1.26.10"
@@ -83,9 +82,8 @@
         "grid": true
       },
       "postcss-modules": {
-        "camelCase": true
-      },
-      "postcss-camel-case": {}
+        "localsConvention": "camelCase"
+      }
     }
   },
   "alias": {

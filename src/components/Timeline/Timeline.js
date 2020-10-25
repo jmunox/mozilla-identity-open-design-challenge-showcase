@@ -20,17 +20,17 @@ export default view(({ items, format = 'HH:mm:ss', scroll }) => {
     const activities = getFormattedData(items, format);
     const dates = Object.keys(activities);
     return (
-      <div className={classNames(css.container, css.timeLineCtnr)} >
-        <div className={classNames(css.mozColumns)}>
+      <div className={classNames(/*css.tile, css.isAncestor,*/css.columns, css.isDesktop, css.timeLineCtnr)} >
+        <div className={classNames(/*css.tile, css.isParent, css.isVertical*/ css.column, css.isThreeQuarters)}>
         {dates.map( (d, index) => (
-          <React.Fragment>
-          <ul id={d.toLowerCase().replace(/ /g, '-')} className={classNames(css.column, css.isFourFifths, css.timeLine)} key={d}>
+          <div className={classNames(/*css.tile, css.is11*/)}>
+          <ul id={d.toLowerCase().replace(/ /g, '-')} className={classNames(css.timeLine, css.pb5)} key={d}>
             <li className={classNames(css.subtitle, css.timeLabel)}>
             <span>{d}</span>
           </li>
             {activities[d] &&
               activities[d].map(({time, item, key}) => (
-                <li id={time} className={classNames(css.media)} key={key}>
+                <li id={time} className={classNames(css.media, css.pb2)} key={key}>
                   <i className={css.fa} />
                   <div className={classNames(css.timeLineItem)}>
                   <div className={classNames(css.timeLineHeader)}>              
@@ -41,7 +41,7 @@ export default view(({ items, format = 'HH:mm:ss', scroll }) => {
               ))}
           </ul>
           {scroll && (dates.length-1)===index && document.getElementById(scroll) && document.getElementById(useDebounce(scroll, 1000)).scrollIntoView({ behavior: 'smooth', block: 'start' }) }
-          </React.Fragment>
+          </div>
           ))}
         </div>
       </div>
