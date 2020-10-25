@@ -28,12 +28,12 @@ export default view((props) => {
     timer: null
   });
 
-  //counter for loading data while scrolling
   const search = store({
     query: '',
+    date: props.header,
   });
   const fastSearch = memoize(fetchAndSearch);
-  const debouncedText = useDebounce(search.query, 1000);
+  let debouncedText = useDebounce(search.query, 1000);
   
   function lazyLoading() {
     limitedFetch({limit: 10**counter.num});
@@ -45,18 +45,18 @@ export default view((props) => {
  // }, [counter.num]); //
 
   useEffect(() => {
-    if(!isEmpty(debouncedText)) 
+    if(!isEmpty(debouncedText)) {
       fastSearch({searchQuery: debouncedText});
-    else if(!props.header || props.header === 'home' || props.header === 'undefined') {
-      limitedFetch({limit: 10**counter.num});
-    } else if(props.header)  {
-      fetch()
-      /*if(counter.timer===null) counter.timer = setInterval(lazyLoading, 500);
-      if(counter.num>6) {
-        clearInterval(counter.timer);
-      }*/
-    }
-
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      search.date = null;
+    } else if(props.dateHeader && props.dateHeader !== 'home' && props.dateHeader !== 'null'  && props.dateHeader !== 'undefined')  {
+        search.date = props.dateHeader;
+      //fetch();
+      if(counter.timer===null) counter.timer = setInterval(lazyLoading, 500);
+      if(counter.num>6) clearInterval(counter.timer);
+    } else limitedFetch({limit: 10**counter.num});
+    
   },[counter.num, debouncedText]);
  
   
@@ -120,12 +120,14 @@ useEffect(() => {
       isSearching && !isEmpty(search.query) ? <div className={css.subtitle} aria-label='... Searching for {search.query}' >Searching for: {search.query}</div> :
       !isSearching && !isEmpty(debouncedText) && visibleItems.length ? <div className={css.subtitle} aria-label='{visibleItems.length} matching results for {search.query}' >{visibleItems.length} matching results for {search.query}</div> : 
      <br/>
-     }
+    }
+     {<progress className={classNames('mb-5', 'progress', 'is-danger', 'is-small', (!isLoading)? 'is-hidden' : '')} max="100">30%</progress>}
     </p>
 </div>
-      <Timeline items={visibleItems} scroll={props.header ? props.header : null} />
+      <Timeline items={visibleItems} scroll={search.date ? search.date.toLowerCase() : null} />
       <div id='page-bottom-boundary' style={{ border: '1px solid red' }} ref={bottomBoundaryRef}></div>
       { (isLoading && !isSearching) && (<span aria-label='Loading more data' >Loading...</span>)}
+      {<progress className={classNames('mb-5', 'progress', 'is-danger', 'is-small', (!isLoading)? 'is-hidden' : '')} max="100">30%</progress>}
     </div>
   )
 })

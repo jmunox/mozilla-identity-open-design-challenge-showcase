@@ -51,9 +51,11 @@ function getSanitizedData(items) {
   const sanitizer = dompurify.sanitize;
   const sanitizedItems = [];
   items.forEach((item, index) => {
+    const date = dayjs(item.date).utc()
+    
     item.content = sanitizer(item.content);
     const contentInnerHTML = item.content.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, ''); //remove HTML tags
-    item.match = dayjs(item.date).utc().format('DD MMMM YYYY, HH:mm:ss') + ' ' + item.name + ' ' + item.source + ' ' + item.event_type + ' ' + contentInnerHTML;
+    item.match = date.format('DD-MMM-YYYY') + ' ' + date.format('DD MMM YYYY')+ ' ' + date.format('DD MMMM YYYY, HH:mm:ss') + ' ' + item.name + ' ' + item.source + ' ' + item.event_type + ' ' + contentInnerHTML;
     item.key = index;
     sanitizedItems.push(item);
   });

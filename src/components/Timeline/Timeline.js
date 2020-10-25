@@ -24,7 +24,7 @@ export default view(({ items, format = 'HH:mm:ss', scroll }) => {
         <div className={classNames(css.mozColumns)}>
         {dates.map( (d, index) => (
           <React.Fragment>
-          <ul id={d.replace(/ /g, '-')} className={classNames(css.column, css.isFourFifths, css.timeLine)} key={d}>
+          <ul id={d.toLowerCase().replace(/ /g, '-')} className={classNames(css.column, css.isFourFifths, css.timeLine)} key={d}>
             <li className={classNames(css.subtitle, css.timeLabel)}>
             <span>{d}</span>
           </li>
@@ -40,7 +40,7 @@ export default view(({ items, format = 'HH:mm:ss', scroll }) => {
                 </li>
               ))}
           </ul>
-          {scroll && (dates.length-1)===index && document.getElementById(scroll) && document.getElementById(useDebounce(scroll, 500)).scrollIntoView({ behavior: 'smooth', block: 'start' }) }
+          {scroll && (dates.length-1)===index && document.getElementById(scroll) && document.getElementById(useDebounce(scroll, 1000)).scrollIntoView({ behavior: 'smooth', block: 'start' }) }
           </React.Fragment>
           ))}
         </div>

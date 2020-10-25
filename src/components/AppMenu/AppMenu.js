@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { Route, Link } from 'react-router-dom'
+import * as React from 'react';
+import { Route, Link } from 'react-router-dom';
 
-import * as css from './AppMenu.scss'
+import * as css from './AppMenu.scss';
 
 const AppMenu = () => (
   <nav className={css.main}>
@@ -11,7 +11,7 @@ const AppMenu = () => (
       <ListItemLink label="About" to="/about" />
     </ul>
   </nav>
-)
+);
 
 const ListItemLink = ({ label, to, ...rest }) => (
   <Route
@@ -24,6 +24,6 @@ const ListItemLink = ({ label, to, ...rest }) => (
       </li>
     )}
   />
-)
+);
 
-export default AppMenu
+export default AppMenu;
