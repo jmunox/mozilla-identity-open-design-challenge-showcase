@@ -48,29 +48,28 @@ export default view(({item}) => {
     }
 
     return (
-        <div className={css.container, css.mb5}>
+        <div className='container pb-3'>
             <SourceNav source={item.source} event={item.event_type} />
-            <div className={classNames(css.card)}>
-                <div className={css.cardContent}>
-                    <div className={classNames(css.media)}>
-                        <div className={css.mediaLeft}>
-                        <a href={item.source}><span className={classNames(css.title, css.icon)}><i className={classNames(icon)}></i></span></a>
+            <div className='card'>
+                <div className='card-content'>
+                    <div className='media'>
+                        <div className='media-left'>
+                        <a href={item.source}><span className='title icon'><i className={icon}></i></span></a>
                         </div>
-                        <div className={css.mediaContent}>
-                            <p className={classNames(css.title)}>{item.name}</p>
-                            <p className={classNames(css.subtitle)}>on&nbsp;<time datetime={item.date}>{time}</time></p>
+                        <div className='media-content'>
+                            <p className='title'>{item.name}</p>
+                            <p className='subtitle'>on&nbsp;<time datetime={item.date}>{time}</time></p>
                         </div>
-                        <div className={classNames(css.mediaRight, css.isHidden)}>
-                            <a href="#"><span className={classNames(css.icon)}><i className='far fa-sticky-note' aria-hidden="true"></i></span></a>
+                        <div className='media-right is-hidden'>
+                            <a href="#"><span className='icon'><i className='far fa-sticky-note' aria-hidden="true"></i></span></a>
                         </div>
                     </div>
-                    <div className={css.content}>
-                        <figure className={classNames(css.container, css.hasTextJustified)}>
+                    <div className='content'>
+                        <figure className='container has-text-left'>
                         <ExpandNav event={item.event_type}/>
-                            <div className={classNames(css.previewItem, css.hasBackgroundWhiteBis)}>
+                            <div className={classNames(css.previewItem, 'has-background-white-bis')}>
                                 {ReactHtmlParser(item.content)}
                             </div>
-                            
                         </figure>
                     </div>
                 </div>
@@ -83,29 +82,29 @@ export default view(({item}) => {
 
   const CardFooter = ({id}) => {
     return(
-        <footer className={css.cardFooter, css.isHidden}>
-        <a href="#" className={css.cardFooterItem}>1</a>
-        <a href="#" className={css.cardFooterItem}>2</a>
-        <a href="#" className={css.cardFooterItem}>3</a>
-        <a href="#" className={css.cardFooterItem}>4</a>
+        <footer className='card-footer is-hidden'>
+        <a href="#" className='card-footer-item'>1</a>
+        <a href="#" className='card-footer-item'>2</a>
+        <a href="#" className='card-footer-item'>3</a>
+        <a href="#" className='card-footer-item'>4</a>
         </footer>
     );
   };
 
   const ExpandNav = ({id, source, event}) => {
     return(
-        <nav className={classNames(css.level, css.isMobile)}>
-            <div className={css.levelLeft}>
-            <div className={classNames(css.levelItem, css.hasTextCentered)}>
+        <nav className='level is-mobile'>
+            <div className='level-left'>
+            <div className='levelItem has-text-centered'>
                         <div>
-                        <p claclassNamess={classNames(css.tags, css.areNormal)}>
-                                <span className={classNames(css.tag, css.isInfo, css.isLight)}>{event}</span>&nbsp;
+                        <p className='tags are-normal'>
+                                <span className='tag is-info is-light'>{event}</span>&nbsp;
                             </p>
                         </div>
                 </div>
             </div>
-            <div className={css.levelRight}>
-            <div className={classNames(css.levelItem, css.hasTextCentered)}>
+            <div className='level-right'>
+            <div className='level-item  has-text-centered'>
                         <div>
                         </div>
                 </div>
@@ -116,14 +115,14 @@ export default view(({item}) => {
 
   const SourceNav = ({id, source, event}) => {
     return(
-        <nav className={classNames(css.level, css.isMobile, css.mb1)}>
-            <div className={css.levelLeft}>
+        <nav className='level is-mobile mb-1'>
+            <div className='level-left'>
             
             </div>
-            <div className={css.levelRight}>
-                <div className={classNames(css.levelItem, css.hasTextCentered)}>
+            <div className='level-right'>
+                <div className='level-item has-text-centered'>
                         <div>
-    <span className={classNames(css.buttonSourceNav)}>Source:&nbsp;<a href={source} target='_blank'>{source}</a></span>
+    <span className={css.buttonSourceNav}>Source:&nbsp;<a href={source} target='_blank'>{event}</a></span>
                         </div>
                 </div>
             </div>
@@ -133,13 +132,13 @@ export default view(({item}) => {
 
   const ShowTags = ({tags}) => {
         return(
-            <nav className={classNames(css.level,)}>
-                <div className={css.levelLeft}>
-                    <div className={classNames(css.levelItem, css.hasTextLeft)}>
+            <nav className='level'>
+                <div className='level-left'>
+                    <div className='level-item has-text-left'>
                         <div>
-                            <p claclassNamess={classNames(css.tags, css.areNormal)}>
-                                <span className={classNames(css.tag, css.isBlack)}>Tag 1</span>&nbsp;
-                                <span className={classNames(css.tag, css.isDark)}>Tag 2</span>&nbsp;
+                            <p className='tags are-normal'>
+                                <span className='tags is-black'>Tag 1</span>&nbsp;
+                                <span className='tags is-dark'>Tag 2</span>&nbsp;
                             </p>
                         </div>
                     </div>

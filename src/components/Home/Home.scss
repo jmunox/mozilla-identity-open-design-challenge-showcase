@@ -1,21 +1,72 @@
 @charset "utf-8";
-@import "bulma/bulma.sass";
 
-@media screen and (max-width:1023px){
-  .container{
+@media screen and (max-width:1023px) {
+  :global .container {
     font-size: 2.2rem;
   }
-  nav{
+
+  nav {
     font-size: 2.2rem;
-    > .input {
+
+    >.input {
       font-size: 2.5rem;
     }
   }
-  .title{
+
+  .search-bar {
     font-size: 2.5rem;
+    line-height: 3rem;
+    height: 3.5rem;
   }
+
+  :global .hero-head {
+    padding-top: 1rem;
+  }
+
+  :global .hero-body {
+    margin-top: 9rem;
+    padding: 12rem 6rem;
+  }
+
+  :global .breadcrumb.is-large{
+    font-size: 2.1rem;
+  }
+
 }
+
+@media screen and (min-width:1024px) {
+  .search-bar {
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+    height: 2.5rem;
+  }
+
+  :global .hero-body {
+    margin-top: 9rem;
+    padding: 8.5rem 6rem;
+  }
+
+
+}
+
 /*
 #home {
   background-color: #fafafa;
 }*/
+
+:global .hero-head.is-fixed-top {
+  left: 0;
+  position: fixed;
+  right: 0;
+  z-index: 30;
+}
+
+
+
+.search-bar {
+  text-decoration: none;
+}
+
+.about {
+  font-size: 1.5rem;
+}

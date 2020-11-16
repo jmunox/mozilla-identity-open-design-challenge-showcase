@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { store, view } from 'react-easy-state';
+import { view } from 'react-easy-state';
 import classNames from 'classnames';
 import { useDebounce } from 'utils/Hook';
 import TimelineItem from './TimelineItem';
+import ProgressIcon from './ProgressIcon';
 
 import * as css from './Timeline.scss';
 
@@ -14,23 +15,26 @@ dayjs.extend(utc);
 * Timeline visualization based on https://github.com/arunghosh/react-time-line
 * Original: https://github.com/arunghosh/react-time-line/blob/master/src/Timeline.jsx
 * Adapted to use Bulma cards
+* To add: https://codesandbox.io/s/framer-motion-viewport-scroll-and-svg-path-animation-mwi35?from-embed
 */
 export default view(({ items, format = 'HH:mm:ss', scroll }) => {
 
     const activities = getFormattedData(items, format);
     const dates = Object.keys(activities);
     return (
-      <div className={classNames(/*css.tile, css.isAncestor,*/css.columns, css.isDesktop, css.timeLineCtnr)} >
-        <div className={classNames(/*css.tile, css.isParent, css.isVertical*/ css.column, css.isThreeQuarters)}>
+      <section className='section'>
+        <div className='container px-6'>
+        <div className={classNames('columns is-desktop', css.timeLineCtnr)} >
+        <div className='column is-four-fifths-desktop'>
         {dates.map( (d, index) => (
-          <div className={classNames(/*css.tile, css.is11*/)}>
-          <ul id={d.toLowerCase().replace(/ /g, '-')} className={classNames(css.timeLine, css.pb5)} key={d}>
-            <li className={classNames(css.subtitle, css.timeLabel)}>
+          <div>
+          <ul id={d.toLowerCase().replace(/ /g, '-')} className={classNames(css.timeLine, 'pb-6')} key={d}>
+            <li className={classNames('subtitle pb-6', css.timeLabel)}>
             <span>{d}</span>
           </li>
             {activities[d] &&
               activities[d].map(({time, item, key}) => (
-                <li id={time} className={classNames(css.media, css.pb2)} key={key}>
+                <li id={time} className='media pb-6' key={key}>
                   <i className={css.fa} />
                   <div className={classNames(css.timeLineItem)}>
                   <div className={classNames(css.timeLineHeader)}>              
@@ -39,12 +43,19 @@ export default view(({ items, format = 'HH:mm:ss', scroll }) => {
                   </div>
                 </li>
               ))}
+            <li className='pb-6'>
+            <span></span>
+          </li>
           </ul>
           {scroll && (dates.length-1)===index && document.getElementById(scroll) && document.getElementById(useDebounce(scroll, 1000)).scrollIntoView({ behavior: 'smooth', block: 'start' }) }
           </div>
           ))}
         </div>
+        <ProgressIcon/>
+        <ScrollToTopButton></ScrollToTopButton>
       </div>
+      </div>
+      </section>
     )
   });
 
@@ -70,3 +81,30 @@ function getFormattedData(items, format = 'HH:mm:ss') {
   });
   return activities;
 }
+
+/** 
+ * https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
+*/
+const ScrollToTopButton = view(() => {
+
+  const [visibility, setVisibility] = useState('is-hidden');
+
+  useEffect(() => {
+    const scrollHandler = () => {
+    (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) ? setVisibility('is-block') : setVisibility ('is-hidden');
+    };
+    window.addEventListener("scroll", scrollHandler);
+    return () => window.removeEventListener("scroll", scrollHandler);
+  }, []);
+
+  function scrollToTopFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  }
+
+  return(
+    <React.Fragment>
+      <button className={classNames(css.scrollTopButton, 'button', 'is-primary', 'is-light', visibility)} onclick={scrollToTopFunction} title="Go to top"><i class="fas fa-chevron-up"></i>&nbsp;Top</button>
+    </React.Fragment>
+  );
+});

@@ -1,9 +1,15 @@
-@import "bulma/bulma.sass";
+//@import "bulma/bulma.sass";
 
 @media screen and (max-width:1023px){
   .time-label{
     font-size: 2.5rem;
-  }}
+  }
+
+  .scroll-top-button {
+    font-size: 2.5rem;
+  }
+
+}
 
 .time-line-ctnr {
     .time-line {
@@ -34,6 +40,7 @@
         position: relative;
         margin-bottom: 10px;
         margin-right: 0;
+        border-style: none;
         > .time-line-item {
           margin-right: 15px;
           position: relative;
@@ -64,8 +71,17 @@
           background-color: #000000;//hsl(206, 70%, 96%);
         }
       }
-      > .media {
-        border-style: none;
-      }
     }
+  }
+
+  :global .media .media {
+    border-style: none;
+  }
+
+  .scroll-top-button {
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    cursor: pointer; /* Add a mouse pointer on hover */
   }

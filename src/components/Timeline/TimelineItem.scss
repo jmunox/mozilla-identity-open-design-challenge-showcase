@@ -1,30 +1,21 @@
 @charset "utf-8";
-@import "bulma/bulma.sass";
-@import "@fortawesome/fontawesome-free/css/all.css";
 
 @media screen and (max-width:1023px){
   .preview-item{
-    font-size: 2rem;
+    font-size: 2.4rem;
+    max-height: 1250px;
     > h2 {
-      font-size: 2.2rem;
+      font-size: 2.6rem;
     }
   }
-  .title {
-    font-size: 2.5rem;
-  }
-  .subtitle{
-    font-size: 2rem;
-  }
   span.button-source-nav {
-    font-size: 1.2rem;
-  }
-  span.tag {
-    font-size: 1.5rem;
+    font-size: 2.4rem;
   }
 }
 
-.preview-item {  
-    max-height: 450px;
+@media screen and (min-width:1024px) {
+  .preview-item {  
+    max-height: 400px;
     margin-bottom: 0.5rem !important;
     margin-right: 0 !important;
     margin-top: 0.5rem;
@@ -35,7 +26,25 @@
     padding: 1rem 2rem 2rem 0.5rem;
     //background-color: #fdfdfd;
     word-break: break-word;
+    font-size: 1.5rem;
+    > h2 {
+      font-size: 2rem;
+    }
   }
+}
+
+.preview-item {  
+  margin-bottom: 0.5rem !important;
+  margin-right: 0 !important;
+  margin-top: 0.5rem;
+  line-height: 1.375;
+  overflow: auto;
+  max-width: 100%;
+  background-attachment: local, local, scroll, scroll;
+  padding: 1rem 2rem 2rem 0.5rem;
+  //background-color: #fdfdfd;
+  word-break: break-word;
+}
 
   .button-source-nav {
     display: inline-flex;
@@ -44,7 +53,7 @@
     padding-right: 1em;
     text-align: center;
     white-space: nowrap;
-    font-size: 0.75rem;
+    font-size: 1rem;
   }
   
   .content {

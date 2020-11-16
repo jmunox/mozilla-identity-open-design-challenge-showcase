@@ -1,12 +1,28 @@
 @charset "utf-8";
+//@import "bulma/css/bulma.css";
+@import "@fortawesome/fontawesome-free/css/all.css";
 
 body {
   //font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 20px;
+  //margin: 0;
+  //padding: 20px;
   //background-color: lightslategray;// #180A25;//hsl(0, 0%, 14%);//#20123A;
 }
 
 a {
   text-decoration: none;
+}
+
+@media screen and (max-width:1023px){
+
+  :global .title {
+    font-size: 3rem;
+  }
+  :global .subtitle {
+    font-size: 2.5rem;
+  }
+
+  :global span.tag {
+    font-size: 1.8rem;
+  }
 }
