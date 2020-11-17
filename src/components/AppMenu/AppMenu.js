@@ -1,54 +1,40 @@
 import * as React from 'react';
 import { Route, Link } from 'react-router-dom';
+import { view } from 'react-easy-state';
+import classNames from 'classnames';
 
 import * as css from './AppMenu.scss';
 
-const AppMenu = () => (
-  <>
-  <nav className="navbar is-fixed-top is-primary">
-  <div className="container px-6">
-    <div className="navbar-brand">
-      <a className="navbar-item">
-        <div className='title has-text-white'>Designing the Mozilla brand identity.</div>
-      </a>
-    </div>
-    <div id="navbarMenuHeroA" className="navbar-menu">
-      <div className="navbar-end">
-      <ListItemLink label="Home" to="/" />
-        <a className="navbar-item is-active">
-          Home
-        </a>
-        <a className="navbar-item">
-          About
-        </a>
-        <span className="navbar-item">
-          <a className="button is-primary is-inverted">
-            <span className="icon">
-              <i class="fab fa-github"></i>
-            </span>
-            <span>Source</span>
-          </a>
-        </span>
-      </div>
-    </div>
-  </div>
-</nav>
-
-  <nav className={css.main}>
-    [App Menu]
-    <ul>
-      
-      <ListItemLink label="About" to="/about" />
-    </ul>
-  </nav>
-  </>
-);
+export default view(() => {
+  document.body.className = 'has-navbar-fixed-top has-background-grey-lighter';
+  return (
+    <>
+      <nav className='navbar is-fixed-top is-primary level px-6'>
+        <div className='level-left'>
+          <div className='level-item'>
+            <nav className='breadcrumb is-large' aria-label='breadcrumbs'>
+              <ul>
+                <ListItemLink className=' has-text-white' label='Showcases' to='/' />
+                <ListItemLink className=' has-text-white' label='Designing the Mozilla brand identity' to='/' />
+                <ListItemLink className=' has-text-white is-hidden-desktop' label='About' to='/about' />
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div className='level-right px-6'>
+            <Link className={classNames('level-item has-text-white is-hidden-touch', css.about)} to='/about'>
+            About</Link>
+        </div>
+      </nav>
+    </>
+)});
 
 const ListItemLink = ({ label, to, ...rest }) => (
   <Route
+    exact
     path={to}
     children={({ match }) => (
-      <li className={match ? 'active' : ''}>
+      <li className={match ? 'is-active' : ''}>
         <Link to={to} {...rest}>
           {label}
         </Link>
@@ -56,5 +42,3 @@ const ListItemLink = ({ label, to, ...rest }) => (
     )}
   />
 );
-
-export default AppMenu;

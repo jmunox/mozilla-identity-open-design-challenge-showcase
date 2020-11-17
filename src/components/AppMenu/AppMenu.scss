@@ -1,3 +1,23 @@
+@media screen and (max-width:1023px) {  
+    nav {
+      font-size: 2.2rem;
+  
+    :global .breadcrumb.is-large{
+      font-size: 2.1rem;
+    }
+  
+  }
+
+}
+
+:global .breadcrumb li+li::before {
+  color: white;
+}
+
+.about {
+    font-size: 1.5rem;
+}
+
 .main {
     margin: 10px 0;
 

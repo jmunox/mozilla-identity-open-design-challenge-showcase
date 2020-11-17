@@ -23,7 +23,7 @@ const RouteWithId = ({match}) => {
 export default () => {
   return (
     <Router>
-        
+        <AppMenu/>
         <Route path="/" exact component={Home} />
         <Route path="/date/:header" component={RouteWithId} />
         <Route path="/about" component={withSuspense(About)} />

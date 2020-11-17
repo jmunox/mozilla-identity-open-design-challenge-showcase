@@ -5,14 +5,6 @@
     font-size: 2.2rem;
   }
 
-  nav {
-    font-size: 2.2rem;
-
-    >.input {
-      font-size: 2.5rem;
-    }
-  }
-
   .search-bar {
     font-size: 2.5rem;
     line-height: 3rem;
@@ -28,10 +20,6 @@
     padding: 12rem 6rem;
   }
 
-  :global .breadcrumb.is-large{
-    font-size: 2.1rem;
-  }
-
 }
 
 @media screen and (min-width:1024px) {
@@ -45,7 +33,6 @@
     margin-top: 9rem;
     padding: 8.5rem 6rem;
   }
-
 
 }
 
@@ -65,8 +52,4 @@
 
 .search-bar {
   text-decoration: none;
-}
-
-.about {
-  font-size: 1.5rem;
 }
