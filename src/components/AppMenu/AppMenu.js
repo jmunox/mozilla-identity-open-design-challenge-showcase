@@ -14,8 +14,8 @@ export default view(() => {
           <div className='level-item'>
             <nav className='breadcrumb is-large' aria-label='breadcrumbs'>
               <ul>
-                <ListItemLink className=' has-text-white' label='Showcases' to='/' />
-                <ListItemLink className=' has-text-white' label='Designing the Mozilla brand identity' to='/' />
+                <ListItemLink className=' has-text-white' label='Showcases' to='/home' />
+                <ListItemLink className=' has-text-white' label='Designing the Mozilla brand identity' to='/home' />
                 <ListItemLink className=' has-text-white is-hidden-desktop' label='About' to='/about' />
               </ul>
             </nav>

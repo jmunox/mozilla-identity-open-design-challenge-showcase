@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { store, view } from 'react-easy-state';
+import { NavLink } from 'react-router-dom';
 import eventStore from 'stores/eventStore';
 import classNames from 'classnames';
 import memoize from 'fast-memoize';
 import { useDebounce } from 'utils/Hook';
+import PlotNav from 'components/Plots/PlotNav';
 
 import Timeline from 'components/Timeline/Timeline';
 
@@ -18,18 +20,21 @@ const isEmpty = (value) => {
 }
 
 export default view((props) => {
-  const { isLoading, items, visibleItems, isSearching,/*create, remove,*/ limitedFetch, fetchAndSearch, fetch } = eventStore;
+  const { isLoading, items, visibleItems, isSearching,/*create, remove,*/ limitedFetch, fetchAndSearch, fetch, fetchAll } = eventStore;
   //counter for loading data while scrolling
   const counter = store({
     num: 0,
     increment: () => counter.num++,
     reset: () => counter.num = 0,
-    timer: null
+    timer: null,
+    firstLoad: false
   });
+
+  const { path } = props.match;
 
   const search = store({
     query: '',
-    date: props.header,
+    date: props.dateHeader,
   });
   const fastSearch = memoize(fetchAndSearch);
   let debouncedText = useDebounce(search.query, 1000);
@@ -44,6 +49,10 @@ export default view((props) => {
  // }, [counter.num]); //
 
   useEffect(() => {
+    if(!counter.firstLoad){
+      fetchAll();
+      counter.firstLoad = true;
+    }
     if(!isEmpty(debouncedText)) {
       fastSearch({searchQuery: debouncedText});
       document.body.scrollTop = 0; // For Safari
@@ -120,22 +129,17 @@ useEffect(() => {
 
   <div className='hero-body'>
     <div className='container has-text-centered px-6'>
-      <h1 className='title'>
-        chart
-      </h1>
-      <h2 className='subtitle'>
-        chart content
-      </h2>
+    <PlotNav searchQuery={debouncedText}/>
     </div>
   </div>
   <div className='hero-foot'>
     <nav className='tabs'>
       <div className='container'>
         <ul>
-          <li className='is-active'><a>Overview</a></li>
-          <li><a>Plot 1</a></li>
-          <li><a>Plot 2</a></li>
-          <li><a>Plot 3</a></li>
+        <li><NavLink exact to={`${path}`} activeClassName='button is-info'>Overview</NavLink></li>
+          <li><NavLink to={`${path}/plot/1`} activeClassName='button is-info'>Plot 1</NavLink></li>
+          <li><NavLink to={`${path}/plot/2`} activeClassName='button is-info'>Plot 2</NavLink></li>
+          <li><NavLink to={`${path}/plot/3`} activeClassName='button is-info'>Plot 3</NavLink></li>
           <li><a>Plot 4</a></li>
           <li><a>Plot 5</a></li>
         </ul>
@@ -144,8 +148,6 @@ useEffect(() => {
   </div>
 </section>
     <div id='home' className='container is-fullhd'>
-
-    
 
       <Timeline items={visibleItems} scroll={search.date ? search.date.toLowerCase() : null} />
       <section className='section'>

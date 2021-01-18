@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './styles/main.scss';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import AppMenu from 'components/AppMenu/AppMenu';
 import Home from 'components/Home/Home';
 
@@ -14,20 +14,30 @@ const withSuspense = Component => {
   );
 };
 
-const RouteWithId = ({match}) => {
+const RouteWithDate = ({match}) => {
   return(
       <Home dateHeader={match.params.header} />
   );
 };
 
+const RouteWithPlotId = ({match}) => {
+  return(
+      <Home plotId={match.params.plot} />
+  );
+};
+
+//<Route path="/home/date/:header" component={RouteWithDate} />
+        //<Route path="/home/plot/:plot" component={RouteWithPlotId} />
+
 export default () => {
   return (
     <Router>
         <AppMenu/>
-        <Route path="/" exact component={Home} />
-        <Route path="/date/:header" component={RouteWithId} />
+        <Switch>
+        <Route path="/home" component={Home} />
         <Route path="/about" component={withSuspense(About)} />
-
+        <Redirect from="/" to="/home" />
+        </Switch>
     </Router>
   );
 };
