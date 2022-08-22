@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import { view } from 'react-easy-state';
-import { VegaLite } from 'react-vega';
+import embed from 'vega-embed';
 import eventStore from 'stores/eventStore';
   
 const isEmpty = (value) => {
@@ -15,14 +15,10 @@ const isEmpty = (value) => {
       
     const { isLoading, items, visibleItems, isSearching,/*create, remove,*/ limitedFetch, fetchAndSearch, fetch } = eventStore;
 
-      let data2 = {
-        "values": [
-          {"date": "Sun, 01 Jan 2012 23:00:00", "price": 150},
-          {"date": "Sun, 02 Jan 2012 00:00:00", "price": 100},
-          {"date": "Sun, 02 Jan 2012 01:00:00", "price": 170},
-          {"date": "Sun, 02 Jan 2012 02:00:00", "price": 165},
-          {"date": "Sun, 02 Jan 2012 03:00:00", "price": 200}
-        ]}
+    useEffect(() => {
+      const result =  embed('#vis', spec2);
+      //vegaEmbed('#vis', spec);
+  }, [isLoading]);
 
       const spec2 = 
     {   
@@ -106,9 +102,6 @@ const isEmpty = (value) => {
       
 
       return (
-              !isLoading ? 
-            <VegaLite spec={spec3} /> : <div></div>
-      
-        
+        <div id='vis'></div>
       )
   });

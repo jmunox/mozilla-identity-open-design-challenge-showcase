@@ -2,7 +2,7 @@ import { store } from 'react-easy-state'
 import { reqGet, reqPost } from 'utils/Req'
 import {slowSearch, fastSearch} from 'utils/Search'
 import dompurify from 'dompurify';
-import ReactHtmlParser from 'react-html-parser';
+//import ReactHtmlParser from 'react-html-parser';
 
 
 import dayjs from 'dayjs';
@@ -57,7 +57,7 @@ function getSanitizedData(items) {
     let content = sanitizer(item.content);
     item.content = content;
     item.contentLength = content.length;
-    const contentInnerHTML = item.content.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, ''); //remove HTML tags
+    const contentInnerHTML = item.content//.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, ''); //remove HTML tags
     item.match = date.format('DD-MMM-YYYY') + ' ' + date.format('DD MMM YYYY')+ ' ' + date.format('DD MMMM YYYY, HH:mm:ss') + ' ' + item.name + ' ' + item.source + ' ' + item.event_type + ' ' + contentInnerHTML;
     item.key = index;
     sanitizedItems.push(item);

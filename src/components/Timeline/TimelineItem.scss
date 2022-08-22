@@ -2,15 +2,15 @@
 
 @media screen and (max-width:1023px){
   .preview-item{
-    font-size: 2.4rem;
+    //font-size: 2.4rem;
     max-height: 1250px;
-    > h2 {
-      font-size: 2.6rem;
-    }
+   // > h2 {
+    //  font-size: 2.6rem;
+    //}
   }
-  span.button-source-nav {
-    font-size: 2.4rem;
-  }
+  //span.button-source-nav {
+  //  font-size: 2.4rem;
+  //}
 }
 
 @media screen and (min-width:1024px) {
@@ -23,13 +23,13 @@
     overflow: auto;
     max-width: 100%;
     background-attachment: local, local, scroll, scroll;
-    padding: 1rem 2rem 2rem 0.5rem;
+    padding: 1rem 0.5rem 1.5rem 0.5rem;
     //background-color: #fdfdfd;
     word-break: break-word;
-    font-size: 1.5rem;
-    > h2 {
-      font-size: 2rem;
-    }
+    //font-size: 1.5rem;
+    //> h2 {
+    //  font-size: 2rem;
+    //}
   }
 }
 
@@ -41,7 +41,7 @@
   overflow: auto;
   max-width: 100%;
   background-attachment: local, local, scroll, scroll;
-  padding: 1rem 2rem 2rem 0.5rem;
+  padding: 1rem 0.5rem 1.5rem 0.5rem;
   //background-color: #fdfdfd;
   word-break: break-word;
 }

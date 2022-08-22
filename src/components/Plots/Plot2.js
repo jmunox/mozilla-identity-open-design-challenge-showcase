@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import { view } from 'react-easy-state';
-import { VegaLite } from 'react-vega';
+import embed from 'vega-embed';
 import eventStore from 'stores/eventStore';
   
 const isEmpty = (value) => {
@@ -17,24 +17,20 @@ const isEmpty = (value) => {
   export default view((props) => {
       
     const { isLoading, items, visibleItems, isSearching,/*create, remove,*/ limitedFetch, fetchAndSearch, fetch } = eventStore;
-    console.log(isEmpty(props.searchQuery))
-
-      let data2 = {
-        "values": [
-          {"date": "Sun, 01 Jan 2012 23:00:00", "price": 150},
-          {"date": "Sun, 02 Jan 2012 00:00:00", "price": 100},
-          {"date": "Sun, 02 Jan 2012 01:00:00", "price": 170},
-          {"date": "Sun, 02 Jan 2012 02:00:00", "price": 165},
-          {"date": "Sun, 02 Jan 2012 03:00:00", "price": 200}
-        ]}
+  
+    useEffect(() => {
+      const result =  embed('#vis', spec2);
+      //vegaEmbed('#vis', spec);
+  }, [isLoading]);
 
 
       const spec = {
+        "$schema": 'https://vega.github.io/schema/vega-lite/v4.json',
         "data": {
             "values": isEmpty(props.searchQuery) ? items : visibleItems
         },
         "view": {"fill": "white"},
-          "width": 800,
+          "width": 400,
           "height": 300,
           "mark": "area",
           "encoding": {
@@ -55,10 +51,166 @@ const isEmpty = (value) => {
           }
     }
 
+    const spec2 = {
+      "$schema": 'https://vega.github.io/schema/vega-lite/v4.json',
+      "data": {
+          "values": isEmpty(props.searchQuery) ? items : visibleItems
+      },
+      "selection": {
+        "grid": {
+          "type": "interval", "bind": "scales"
+        },
+      },
+      "view": {"fill": "white"},
+      "padding": 5,
+      "vconcat": [
+        {
+      "hconcat": [
+        {
+          "mark": {type :"bar", "tooltip": true},
+          "transform": [
+            {"filter": {"selection": "brush"}}
+          ],
+          "width": 200,
+          "height": 250,
+          "encoding": {
+            "x": {
+              "timeUnit": "yearmonth",
+              "field": "date",
+              "type": "ordinal",
+              "title": "Month-year", 
+            },
+            "y": {
+              "aggregate": "count",
+              "type": "quantitative",
+              "title": "Count of records"
+            },
+            "color": {
+              "condition": {
+                "selection": "platform",
+                "field": "event_type",
+                "type": "nominal",
+                "legend": null
+                },
+              "value": "lightgrey",
+            }
+          }
+        },
+        {
+          "mark": {type :"bar", "tooltip": true},
+          "transform": [
+            {"filter": {"selection": "brush"}}
+          ],
+          "width": 200,
+          "height": 250,
+          "encoding": {
+            "x": {
+              "timeUnit": "yearmonth",
+              "field": "date",
+              "type": "ordinal",
+              "title": "Month-year"
+            },
+            "y": {
+              "field": "contentLength",
+              "type": "quantitative",
+              "title": "Lenght of message/post (characters)"
+            },
+            "color": {
+              "condition": {
+                "selection": "platform",
+                "field": "event_type",
+                "type": "nominal",
+                },
+              "value": "lightgrey",
+            }
+          }
+        },
+        { 
+          "mark": {type :"bar", "tooltip": true},
+          "transform": [
+            {"filter": {"selection": "brush"}}
+          ],
+          "width": 200,
+          "height": 250,
+          "encoding": {
+            "x": {
+              "timeUnit": "yearmonth",
+              "field": "date",
+              "type": "ordinal",
+              "title": "Month-year"
+            },
+            "y": {
+              "aggregate": "distinct",
+              "field": "name",
+              "type": "quantitative",
+              "title": "Count of individuals"
+            },
+            "color": {
+              "condition": {
+                "selection": "platform",
+                "field": "event_type",
+                "type": "nominal",
+                },
+              "value": "lightgrey",
+            }
+          }
+        }
+      ]},
+      {"hconcat": [
+        {
+        "mark": {type :"bar", "tooltip": true},
+        "selection": {
+          "brush": {"type": "interval", "encodings": ["x"]}
+        },
+        "width": 500,
+        "height": 200,
+        "encoding": {
+          "x": {
+            "timeUnit": "hours",
+            "field": "date",
+            "type": "ordinal",
+            "title": "Time of the day (UTC)"
+          },
+          "y": {
+            "aggregate": "count",
+            "type": "quantitative",
+            "title": "Count of records"
+          },
+          "color": {
+            "condition": {
+              "selection": "platform",
+              "field": "event_type",
+              "type": "nominal",
+              },
+            "value": "lightgrey",
+          }
+        }
+      },
+      {
+        "selection": {
+          "platform": {
+          "type": "single",
+          "fields": ["event_type"],
+          }
+        },
+        "mark": "rect",
+        "encoding": {
+          "y": {"field": "event_type", "type": "ordinal", "axis": {"title": "Filter by Platform"}},
+          "color": {
+            "condition": {
+              "selection": "platform",
+              "field": "event_type",
+              "type": "nominal"
+              },
+            "value": "lightgrey",
+          }
+        }
+      }
+    ]}
+    ] 
+    }
+
       return (
-              !isLoading ? 
-            <VegaLite spec={spec} /> : <div></div>
-      
-        
+        <div id='vis'></div>
       )
   });

@@ -57,17 +57,17 @@ export default view(({item}) => {
                         <a href={item.source}><span className='title icon'><i className={icon}></i></span></a>
                         </div>
                         <div className='media-content'>
-                            <p className='title'>{item.name}</p>
-                            <p className='subtitle'>on&nbsp;<time datetime={item.date}>{time}</time></p>
+                            <p className='title is-4'>{item.name}</p>
+                            <p className='subtitle is-6'>on&nbsp;<time datetime={item.date}>{time}</time></p>
                         </div>
                         <div className='media-right is-hidden'>
                             <a href="#"><span className='icon'><i className='far fa-sticky-note' aria-hidden="true"></i></span></a>
                         </div>
                     </div>
                     <div className='content'>
-                        <figure className='container has-text-left'>
+                        <figure className='container has-text-left mx-0'>
                         <ExpandNav event={item.event_type}/>
-                            <div className={classNames(css.previewItem, 'has-background-white-bis')}>
+                            <div className={classNames(css.previewItem, 'has-background-light')}>
                                 {ReactHtmlParser(item.content)}
                             </div>
                         </figure>

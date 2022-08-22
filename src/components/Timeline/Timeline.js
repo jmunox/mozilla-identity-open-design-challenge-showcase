@@ -22,8 +22,7 @@ export default view(({ items, format = 'HH:mm:ss', scroll }) => {
     const activities = getFormattedData(items, format);
     const dates = Object.keys(activities);
     return (
-      <section className='section'>
-        <div className='container px-6'>
+      <div className='container py-3'>
         <div className={classNames('columns is-desktop', css.timeLineCtnr)} >
         <div className='column is-four-fifths-desktop'>
         {dates.map( (d, index) => (
@@ -43,7 +42,7 @@ export default view(({ items, format = 'HH:mm:ss', scroll }) => {
                   </div>
                 </li>
               ))}
-            <li className='pb-6'>
+            <li className=''>
             <span></span>
           </li>
           </ul>
@@ -54,8 +53,7 @@ export default view(({ items, format = 'HH:mm:ss', scroll }) => {
         <ProgressIcon/>
         <ScrollToTopButton></ScrollToTopButton>
       </div>
-      </div>
-      </section>
+    </div>
     )
   });
 
@@ -104,7 +102,7 @@ const ScrollToTopButton = view(() => {
 
   return(
     <React.Fragment>
-      <button className={classNames(css.scrollTopButton, 'button', 'is-primary', 'is-light', visibility)} onclick={scrollToTopFunction} title="Go to top"><i class="fas fa-chevron-up"></i>&nbsp;Top</button>
+      <button className={classNames('button is-primary', css.scrollTopButton,  visibility)} onclick={scrollToTopFunction} title="Go to top"><i class="fas fa-chevron-up"></i>&nbsp;Top</button>
     </React.Fragment>
   );
 });
