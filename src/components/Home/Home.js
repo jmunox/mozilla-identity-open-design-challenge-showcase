@@ -4,6 +4,7 @@ import eventStore from 'stores/eventStore';
 import classNames from 'classnames';
 import memoize from 'fast-memoize';
 import { useDebounce } from 'utils/Hook';
+import PlotNav from 'components/Plots/PlotNav';
 
 import Timeline from 'components/Timeline/Timeline';
 
@@ -18,18 +19,19 @@ const isEmpty = (value) => {
 }
 
 export default view((props) => {
-  const { isLoading, items, visibleItems, isSearching,/*create, remove,*/ limitedFetch, fetchAndSearch, fetch } = eventStore;
+  const { isLoading, items, visibleItems, isSearching,/*create, remove,*/ limitedFetch, fetchAndSearch, fetch, fetchAll } = eventStore;
   //counter for loading data while scrolling
   const counter = store({
     num: 0,
     increment: () => counter.num++,
     reset: () => counter.num = 0,
-    timer: null
+    timer: null,
+    firstLoad: false
   });
 
   const search = store({
     query: '',
-    date: props.header,
+    date: props.dateHeader,
   });
   const fastSearch = memoize(fetchAndSearch);
   let debouncedText = useDebounce(search.query, 1000);
@@ -44,6 +46,10 @@ export default view((props) => {
  // }, [counter.num]); //
 
   useEffect(() => {
+    if(!counter.firstLoad){
+      fetchAll();
+      counter.firstLoad = true;
+    }
     if(!isEmpty(debouncedText)) {
       fastSearch({searchQuery: debouncedText});
       document.body.scrollTop = 0; // For Safari
@@ -58,7 +64,8 @@ export default view((props) => {
     
   },[counter.num, debouncedText]);
  
-  
+  var dataStore = 'data:text/json;charset=utf-8,' + encodeURIComponent(js_beautify(JSON.stringify(items), { indent_size: 2, space_in_empty_paren: true }));
+
 /*
 // working search
   const onSearch = debounce(event => {
@@ -92,75 +99,49 @@ useEffect(() => {
 
   return (
     <>
-  <section className='hero is-primary'>
-    <div className='hero-head is-fixed-top has-background-primary'>
-    <div className=''>  
-    
-    <div className='container px-6'>
-    <div className='control'>
-          <input className={classNames('input is-black', css.searchBar)} 
-          type='text'
-          placeholder='Search'
-          value={search.query}
-          onChange={event => (search.query = event.target.value)}
-          />
+    <section className='container pt-3'>
+      <div className=''>
+        <div className='columns is-multiline'>  
+          <div className='column is-full px-4'>
+          <div className='control has-icons-left'>
+                <input className={classNames('input is-black is-medium', css.searchBar)} 
+                type='text'
+                placeholder='Search'
+                value={search.query}
+                onChange={event => (search.query = event.target.value)}
+                />
+                <span class="icon is-left is-medium">
+                  <i class="fas fa-search" aria-hidden="true"></i>
+                </span>
+              </div>
+          {
+            !isSearching && !isEmpty(search.query) && !visibleItems.length ? <div className='mt-3' aria-label={`No matching data found for ${search.query}`} >No matching data found for {search.query}</div> :
+            isSearching && !isEmpty(search.query) ? <div className='mt-3' aria-label={`... Searching for ${search.query}`} >Searching for: {search.query}</div> :
+            !isSearching && !isEmpty(debouncedText) && visibleItems.length ? <div className='mt-3' aria-label={`${visibleItems.length} matching results for ${debouncedText}`} >{visibleItems.length} matching results for {debouncedText}</div> : <div className=''/> 
+          }
+          {<progress className={classNames('progress is-info is-small my-5', (!isLoading)? 'is-hidden' : '')} max='100'>30%</progress>}
         </div>
-      
-    <p className='mt-3'>
-    {
-      !isSearching && !isEmpty(search.query) && !visibleItems.length ? <div className='subtitle' aria-label='No matching data found for {search.query}' >No matching data found for {search.query}</div> :
-      isSearching && !isEmpty(search.query) ? <div className='subtitle' aria-label='... Searching for {search.query}' >Searching for: {search.query}</div> :
-      !isSearching && !isEmpty(debouncedText) && visibleItems.length ? <div className='subtitle' aria-label='{visibleItems.length} matching results for {debouncedText}' >{visibleItems.length} matching results for {debouncedText}</div> : <div className='pb-5'/> 
-    }
-     {<progress className={classNames('progress is-info is-small mb-5', (!isLoading)? 'is-hidden' : '')} max='100'>30%</progress>}
-    </p>
-  </div>
-  </div>
-  </div>
-
-  <div className='hero-body'>
-    <div className='container has-text-centered px-6'>
-      <h1 className='title'>
-        chart
-      </h1>
-      <h2 className='subtitle'>
-        chart content
-      </h2>
-    </div>
-  </div>
-  <div className='hero-foot'>
-    <nav className='tabs'>
-      <div className='container'>
-        <ul>
-          <li className='is-active'><a>Overview</a></li>
-          <li><a>Plot 1</a></li>
-          <li><a>Plot 2</a></li>
-          <li><a>Plot 3</a></li>
-          <li><a>Plot 4</a></li>
-          <li><a>Plot 5</a></li>
-        </ul>
+        <PlotNav {...props} searchQuery={debouncedText}/>
       </div>
-    </nav>
-  </div>
-</section>
-    <div id='home' className='container is-fullhd'>
-
-    
-
+    </div>
+  </section>
+  <section id='home' className='container is-fullhd'>
+  <a href={dataStore} download='data.json'>Download</a>
       <Timeline items={visibleItems} scroll={search.date ? search.date.toLowerCase() : null} />
-      <section className='section'>
-      <div className='container px-6 ml-3'>
+  </section>
+    <section className='section'>
+      <div className='container px-4'>
       <div id='page-bottom-boundary' style={{ border: '1px solid #00d1b2' }} ref={bottomBoundaryRef}></div>
       { (isLoading && !isSearching) && (
       <div>
-      <span className='subtitle' aria-label='Loading more data' >Loading more data...</span>
+      <span className='subtitle' aria-label='Loading data...' >Loading data...</span>
       <progress className={classNames('progress is-info is-small mb-5', (!isLoading)? 'is-hidden' : '')} max='100'>30%</progress>
       </div>
       )}
 
       </div>
-      </section>
-    </div>
+  </section>
+    
     </>
     
   )

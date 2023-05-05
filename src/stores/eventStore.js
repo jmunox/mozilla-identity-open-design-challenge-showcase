@@ -2,6 +2,8 @@ import { store } from 'react-easy-state'
 import { reqGet, reqPost } from 'utils/Req'
 import {slowSearch, fastSearch} from 'utils/Search'
 import dompurify from 'dompurify';
+//import ReactHtmlParser from 'react-html-parser';
+
 
 import dayjs from 'dayjs';
 const utc = require('dayjs/plugin/utc');
@@ -31,7 +33,7 @@ const _store = store({
     _store.isLoading = true
     const { res } = await reqGet('events')
     const sanitizedItems = getSanitizedData(res);
-    _store.items = sanitizedItems
+    //_store.items = sanitizedItems
     const resultSearch = fastSearch({items : sanitizedItems, searchQuery : searchQuery})
     _store.visibleItems = resultSearch
     _store.isSearching = false
@@ -51,10 +53,11 @@ function getSanitizedData(items) {
   const sanitizer = dompurify.sanitize;
   const sanitizedItems = [];
   items.forEach((item, index) => {
-    const date = dayjs(item.date).utc()
-    
-    item.content = sanitizer(item.content);
-    const contentInnerHTML = item.content.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, ''); //remove HTML tags
+    const date = dayjs(item.date).utc();
+    let content = sanitizer(item.content);
+    item.content = content;
+    item.contentLength = content.length;
+    const contentInnerHTML = item.content//.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, ''); //remove HTML tags
     item.match = date.format('DD-MMM-YYYY') + ' ' + date.format('DD MMM YYYY')+ ' ' + date.format('DD MMMM YYYY, HH:mm:ss') + ' ' + item.name + ' ' + item.source + ' ' + item.event_type + ' ' + contentInnerHTML;
     item.key = index;
     sanitizedItems.push(item);
