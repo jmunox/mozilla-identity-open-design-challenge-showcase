@@ -64,7 +64,8 @@ export default view((props) => {
     
   },[counter.num, debouncedText]);
  
-  
+  var dataStore = 'data:text/json;charset=utf-8,' + encodeURIComponent(js_beautify(JSON.stringify(items), { indent_size: 2, space_in_empty_paren: true }));
+
 /*
 // working search
   const onSearch = debounce(event => {
@@ -125,6 +126,7 @@ useEffect(() => {
     </div>
   </section>
   <section id='home' className='container is-fullhd'>
+  <a href={dataStore} download='data.json'>Download</a>
       <Timeline items={visibleItems} scroll={search.date ? search.date.toLowerCase() : null} />
   </section>
     <section className='section'>
