@@ -2,7 +2,9 @@ import React, {useEffect} from 'react';
 import { view } from 'react-easy-state';
 import embed from 'vega-embed';
 import eventStore from 'stores/eventStore';
-  
+ 
+/** TODO fix to visualize calendar view, similar to GitHub*/
+
 const isEmpty = (value) => {
   if (value) {
       if (value.trim().length>1) return false;
